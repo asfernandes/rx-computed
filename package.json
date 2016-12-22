@@ -1,0 +1,41 @@
+{
+  "name": "rx-computed",
+  "version": "0.0.2-alpha.1",
+  "description": "Computed observables (ala Knockout) for RxJS",
+  "main": "dist/index.js",
+  "scripts": {
+    "tsc": "tsc",
+    "tsc:w": "tsc --watch",
+    "test": "npm run tsc && mocha dist/test/rx-computed.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asfernandes/rx-computed.git"
+  },
+  "keywords": [
+    "typescript",
+    "rxjs"
+  ],
+  "author": {
+    "name": "Adriano dos Santos Fernandes",
+    "email": "adrianosf@gmail.com",
+    "url": "https://asfernandes.github.io"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/asfernandes/rx-computed/issues"
+  },
+  "homepage": "https://github.com/asfernandes/rx-computed#readme",
+  "devDependencies": {
+    "@types/core-js": "^0.9.35",
+    "@types/mocha": "^2.2.34",
+    "@types/node": "^6.0.52",
+    "@types/power-assert": "^1.4.29",
+    "mocha": "^3.2.0",
+    "power-assert": "^1.4.2",
+    "typescript": "^2.1.4"
+  },
+  "dependencies": {
+    "rxjs": "^5.0.1"
+  }
+}
