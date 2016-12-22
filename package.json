@@ -1,6 +1,6 @@
 {
   "name": "rx-computed",
-  "version": "0.0.2-alpha.1",
+  "version": "0.0.2-alpha.2",
   "description": "Computed observables (ala Knockout) for RxJS",
   "main": "dist/index.js",
   "scripts": {
