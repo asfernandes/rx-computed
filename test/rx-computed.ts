@@ -38,6 +38,12 @@ describe("RxComputed", function() {
 		n2.next(200);
 		assert.equal(counter, 3);
 		assert.equal(computed.value, 211);
+
+		computed.dispose();
+
+		n1.next(12);
+		n2.next(300);
+		assert.equal(counter, 3);
 	});
 
 	it('sync with one dependency read two times', () => {
@@ -59,6 +65,11 @@ describe("RxComputed", function() {
 		n.next(13);
 		assert.equal(counter, 3);
 		assert.equal(computed.value, 26);
+
+		computed.dispose();
+
+		n.next(14);
+		assert.equal(counter, 3);
 	});
 
 	it('sync with one dependency used in two computeds', () => {
@@ -91,5 +102,12 @@ describe("RxComputed", function() {
 		assert.equal(counter2, 3);
 		assert.equal(computed1.value, 30);
 		assert.equal(computed2.value, 30);
+
+		computed1.dispose();
+		computed2.dispose();
+
+		n.next(40);
+		assert.equal(counter1, 3);
+		assert.equal(counter2, 3);
 	});
 });
