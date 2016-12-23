@@ -31,8 +31,13 @@ var RxComputedContextImpl = (function () {
         this.subscriptions.splice(0);
     };
     RxComputedContextImpl.prototype.update = function () {
+        var _this = this;
         this.dispose();
-        this.subject.next(this.func(this));
+        var updatedVal = this.func(this);
+        if (updatedVal instanceof Promise)
+            updatedVal.then(function (val) { return _this.subject.next(val); });
+        else
+            this.subject.next(updatedVal);
     };
     return RxComputedContextImpl;
 }());
@@ -46,9 +51,13 @@ var RxComputed = (function (_super) {
     RxComputed.sync = function (func) {
         return new RxComputed(func);
     };
+    RxComputed.async = function (func) {
+        return new RxComputed(func);
+    };
     RxComputed.prototype.dispose = function () {
         this.context.dispose();
     };
     return RxComputed;
 }(BehaviorSubject_1.BehaviorSubject));
 exports.RxComputed = RxComputed;
+//# sourceMappingURL=rx-computed.js.map

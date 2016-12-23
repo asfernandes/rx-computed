@@ -9,10 +9,17 @@ export interface RxComputedContext<T>
 	get<T>(observable: BehaviorSubject<T>): T;
 }
 
-export interface CallbackType<T>
+export interface SyncCallbackType<T>
 {
 	(context: RxComputedContext<T>): T;
 }
+
+export interface AsyncCallbackType<T>
+{
+	(context: RxComputedContext<T>): Promise<T>;
+}
+
+export type CallbackType<T> = SyncCallbackType<T> | AsyncCallbackType<T>;
 
 class RxComputedContextImpl<T> implements RxComputedContext<T>
 {
@@ -28,9 +35,10 @@ class RxComputedContextImpl<T> implements RxComputedContext<T>
 		let first = true;
 
 		this.subscriptions.push(observable.subscribe(val => {
-			// Ignora a primeira notificação.
+			// Ignore the first notification.
 
-			if (first)	//// FIXME: não deveria ignorar apenas para BehaviorSubject?
+			//// TODO: should not only ignore the first for BehaviorSubject?
+			if (first)
 				first = false;
 			else
 				this.update();
@@ -52,7 +60,13 @@ class RxComputedContextImpl<T> implements RxComputedContext<T>
 	private update()
 	{
 		this.dispose();
-		this.subject.next(this.func(this));
+
+		let updatedVal = this.func(this);
+
+		if (updatedVal instanceof Promise)
+			updatedVal.then(val => this.subject.next(val));
+		else
+			this.subject.next(updatedVal);
 	}
 }
 
@@ -60,7 +74,12 @@ export class RxComputed<T> extends BehaviorSubject<T>
 {
 	private context: RxComputedContextImpl<T>;
 
-	static sync<T>(func: CallbackType<T>)
+	static sync<T>(func: SyncCallbackType<T>)
+	{
+		return new RxComputed<T>(func);
+	}
+
+	static async<T>(func: AsyncCallbackType<T>)
 	{
 		return new RxComputed<T>(func);
 	}

@@ -1,4 +1,6 @@
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/Rx';
 
 import { RxComputed }  from '../lib/rx-computed';
 
@@ -20,8 +22,12 @@ describe("RxComputed", function() {
 
 	it('sync with two dependencies', () => {
 		let counter = 0;
-		let n1 = new BehaviorSubject(10);
+		let n1 = new BehaviorSubject(0);
 		let n2 = new BehaviorSubject(100);
+
+		// The computed will start with the latest n1 value.
+		n1.next(9);
+		n1.next(10);
 
 		let computed = RxComputed.sync<number>(context => {
 			++counter;
@@ -109,5 +115,73 @@ describe("RxComputed", function() {
 		n.next(40);
 		assert.equal(counter1, 3);
 		assert.equal(counter2, 3);
+	});
+
+	it('sync with one track dependency to BehaviorSubject', () => {
+		let counter = 0;
+		let n = new BehaviorSubject(1);
+
+		let computed = RxComputed.sync<number>(context => {
+			++counter;
+			context.track(n);
+			return counter;
+		});
+
+		assert.equal(counter, 1);
+		assert.equal(computed.value, 1);
+
+		assert.equal(counter, 1);
+		assert.equal(computed.value, 1);
+
+		n.next(n.value + 1);
+
+		assert.equal(counter, 2);
+		assert.equal(computed.value, 2);
+
+		computed.dispose();
+	});
+
+	it('async with one dependency', async () => {
+		let counter = 0;
+		let n1 = new BehaviorSubject(10);
+
+		let computed = RxComputed.async<number>(context => {
+			++counter;
+
+			let val1 = context.get(n1);
+
+			return new Promise<number>(resolve => {
+				setTimeout(() => {
+					resolve(val1 + 1);
+				}, 10);
+			});
+		});
+
+		assert.equal(counter, 1);
+		assert.equal(computed.value, null);
+
+		let resolve: (value: number[]) => void;
+		let promise = new Promise<number[]>((resolver) => resolve = resolver);
+
+		let emit = [20, 30, 40];
+
+		computed
+			.take(2 + emit.length)
+			.toArray()
+			.subscribe(array => {
+				resolve(array);
+			});
+
+		emit.forEach(n => n1.next(n));
+
+		let numbers = await promise;
+
+		assert.equal(numbers.length, 2 + emit.length);
+		assert.equal(numbers[0], null);
+		assert.equal(numbers[1], 11);
+
+		emit.forEach((n, index) => assert.equal(numbers[2 + index], n + 1));
+
+		computed.dispose();
 	});
 });

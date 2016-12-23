@@ -6,7 +6,7 @@ Make it possible to use RxJS in a manner similar to [Knockout computed observabl
 
 `npm install --save rx-computed`
 
-## Usage in TypeScript
+## Usage in TypeScript (sync)
 
 ```ts
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -45,4 +45,29 @@ computed.dispose();
 // changing n2 will not re-evaluate the disposed computed
 n2.next(300);
 assert.equal(counter, 3);
+```
+
+## Usage in TypeScript (async)
+
+```ts
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { RxComputed }  from 'rx-computed';
+
+// variable that our computed will depend on
+let n1 = new BehaviorSubject(10);
+
+let computed = RxComputed.async<number>(context => {
+	let val1 = context.get(n1);
+
+	return new Promise<number>(resolve => {
+		setTimeout(() => {
+			resolve(val1 + 1);
+		}, 10);
+	});
+});
+
+// ...
+
+// dispose the computed
+computed.dispose();
 ```
