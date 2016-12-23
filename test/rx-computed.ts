@@ -1,3 +1,5 @@
+import * as sourceMapSupport from 'source-map-support';
+
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
@@ -5,6 +7,9 @@ import 'rxjs/Rx';
 import { RxComputed }  from '../lib/rx-computed';
 
 import * as assert from "power-assert";
+
+
+sourceMapSupport.install();
 
 
 describe("RxComputed", function() {

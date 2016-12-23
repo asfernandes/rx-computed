@@ -9,6 +9,7 @@
         "declaration": true,
         "forceConsistentCasingInFileNames": true,
         "suppressImplicitAnyIndexErrors": true,
+        "sourceMap": true,
         "outDir": "dist"
     }
 }
