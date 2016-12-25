@@ -10,7 +10,7 @@ Make it possible to use RxJS in a manner similar to [Knockout computed observabl
 
 ```ts
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { RxComputed }  from 'rx-computed';
+import { RxComputed } from 'rx-computed';
 import * as assert from "power-assert";
 
 // debug how many times the computed function is called

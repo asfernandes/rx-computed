@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 
-import { RxComputed }  from '../lib/rx-computed';
+import { RxComputed } from '../lib/rx-computed';
 
 import * as assert from "power-assert";
 
