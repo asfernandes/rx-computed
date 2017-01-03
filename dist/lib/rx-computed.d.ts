@@ -1,15 +1,15 @@
 /// <reference types="core-js" />
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-export interface RxComputedContext<T> {
+export interface RxComputedContext {
     track<T>(observable: Observable<T>): void;
     get<T>(observable: BehaviorSubject<T>): T;
 }
 export interface SyncCallbackType<T> {
-    (context: RxComputedContext<T>): T;
+    (context: RxComputedContext): T;
 }
 export interface AsyncCallbackType<T> {
-    (context: RxComputedContext<T>): Promise<T>;
+    (context: RxComputedContext): Promise<T>;
 }
 export declare type CallbackType<T> = SyncCallbackType<T> | AsyncCallbackType<T>;
 export declare class RxComputed<T> extends BehaviorSubject<T> {

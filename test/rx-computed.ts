@@ -1,7 +1,6 @@
 import * as sourceMapSupport from 'source-map-support';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 
 import { RxComputed } from '../lib/rx-computed';

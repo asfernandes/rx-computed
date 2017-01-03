@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
 
-export interface RxComputedContext<T>
+export interface RxComputedContext
 {
 	track<T>(observable: Observable<T>): void;
 	get<T>(observable: BehaviorSubject<T>): T;
@@ -11,17 +11,17 @@ export interface RxComputedContext<T>
 
 export interface SyncCallbackType<T>
 {
-	(context: RxComputedContext<T>): T;
+	(context: RxComputedContext): T;
 }
 
 export interface AsyncCallbackType<T>
 {
-	(context: RxComputedContext<T>): Promise<T>;
+	(context: RxComputedContext): Promise<T>;
 }
 
 export type CallbackType<T> = SyncCallbackType<T> | AsyncCallbackType<T>;
 
-class RxComputedContextImpl<T> implements RxComputedContext<T>
+class RxComputedContextImpl<T> implements RxComputedContext
 {
 	private subscriptions: Subscription[] = [];
 
