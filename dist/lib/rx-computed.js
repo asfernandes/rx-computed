@@ -14,13 +14,9 @@ var RxComputedContextImpl = (function () {
     }
     RxComputedContextImpl.prototype.track = function (observable) {
         var _this = this;
-        var first = true;
-        this.subscriptions.push(observable.subscribe(function (val) {
-            if (first)
-                first = false;
-            else
-                _this.update();
-        }));
+        this.subscriptions.push(observable
+            .skip(1)
+            .subscribe(function (val) { return _this.update(); }));
     };
     RxComputedContextImpl.prototype.get = function (observable) {
         this.track(observable);

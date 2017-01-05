@@ -165,16 +165,14 @@ describe("RxComputed", function() {
 		assert.equal(computed.value, null);
 
 		let resolve: (value: number[]) => void;
-		let promise = new Promise<number[]>((resolver) => resolve = resolver);
+		let promise = new Promise<number[]>(resolver => resolve = resolver);
 
 		let emit = [20, 30, 40];
 
 		computed
 			.take(2 + emit.length)
 			.toArray()
-			.subscribe(array => {
-				resolve(array);
-			});
+			.subscribe(array => resolve(array));
 
 		emit.forEach(n => n1.next(n));
 

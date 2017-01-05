@@ -164,9 +164,7 @@ describe("RxComputed", function () {
                     computed
                         .take(2 + emit.length)
                         .toArray()
-                        .subscribe(function (array) {
-                        resolve(array);
-                    });
+                        .subscribe(function (array) { return resolve(array); });
                     emit.forEach(function (n) { return n1.next(n); });
                     return [4 /*yield*/, promise];
                 case 1:

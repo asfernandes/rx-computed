@@ -32,17 +32,11 @@ class RxComputedContextImpl<T> implements RxComputedContext
 
 	track<T>(observable: Observable<T>)
 	{
-		let first = true;
-
-		this.subscriptions.push(observable.subscribe(val => {
-			// Ignore the first notification.
-
-			//// TODO: should not only ignore the first for BehaviorSubject?
-			if (first)
-				first = false;
-			else
-				this.update();
-		}));
+		this.subscriptions.push(
+			observable
+				.skip(1)	//// TODO: should not only ignore the first for BehaviorSubject?
+				.subscribe(val => this.update())
+		);
 	}
 
 	get<T>(observable: BehaviorSubject<T>)
