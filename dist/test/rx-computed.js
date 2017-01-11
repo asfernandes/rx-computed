@@ -36,15 +36,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var sourceMapSupport = require("source-map-support");
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
-require("rxjs/Rx");
-var rx_computed_1 = require("../lib/rx-computed");
+var __1 = require("..");
 var assert = require("power-assert");
 sourceMapSupport.install();
 describe("RxComputed", function () {
     var _this = this;
     it('sync without dependencies', function () {
         var counter = 0;
-        var computed = rx_computed_1.RxComputed.sync(function () {
+        var computed = __1.RxComputed.sync(function () {
             ++counter;
             return 1;
         });
@@ -57,7 +56,7 @@ describe("RxComputed", function () {
         var n2 = new BehaviorSubject_1.BehaviorSubject(100);
         n1.next(9);
         n1.next(10);
-        var computed = rx_computed_1.RxComputed.sync(function (context) {
+        var computed = __1.RxComputed.sync(function (context) {
             ++counter;
             return context.get(n1) + context.get(n2);
         });
@@ -77,7 +76,7 @@ describe("RxComputed", function () {
     it('sync with one dependency read two times', function () {
         var counter = 0;
         var n = new BehaviorSubject_1.BehaviorSubject(10);
-        var computed = rx_computed_1.RxComputed.sync(function (context) {
+        var computed = __1.RxComputed.sync(function (context) {
             ++counter;
             return context.get(n) + context.get(n);
         });
@@ -96,11 +95,11 @@ describe("RxComputed", function () {
     it('sync with one dependency used in two computeds', function () {
         var counter1 = 0, counter2 = 0;
         var n = new BehaviorSubject_1.BehaviorSubject(10);
-        var computed1 = rx_computed_1.RxComputed.sync(function (context) {
+        var computed1 = __1.RxComputed.sync(function (context) {
             ++counter1;
             return context.get(n);
         });
-        var computed2 = rx_computed_1.RxComputed.sync(function (context) {
+        var computed2 = __1.RxComputed.sync(function (context) {
             ++counter2;
             return context.get(n);
         });
@@ -127,7 +126,7 @@ describe("RxComputed", function () {
     it('sync with one track dependency to BehaviorSubject', function () {
         var counter = 0;
         var n = new BehaviorSubject_1.BehaviorSubject(1);
-        var computed = rx_computed_1.RxComputed.sync(function (context) {
+        var computed = __1.RxComputed.sync(function (context) {
             ++counter;
             context.track(n);
             return counter;
@@ -148,7 +147,7 @@ describe("RxComputed", function () {
                 case 0:
                     counter = 0;
                     n1 = new BehaviorSubject_1.BehaviorSubject(10);
-                    computed = rx_computed_1.RxComputed.async(function (context) {
+                    computed = __1.RxComputed.async(function (context) {
                         ++counter;
                         var val1 = context.get(n1);
                         return new Promise(function (resolve) {
