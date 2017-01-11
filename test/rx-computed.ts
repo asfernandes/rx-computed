@@ -1,9 +1,8 @@
 import * as sourceMapSupport from 'source-map-support';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import 'rxjs/Rx';
 
-import { RxComputed } from '../lib/rx-computed';
+import { RxComputed } from '..';
 
 import * as assert from "power-assert";
 
